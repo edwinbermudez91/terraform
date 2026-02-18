@@ -186,3 +186,89 @@ Esto permite:
 - Fixes
 - Security patches
 - Sin romper con 4.x
+
+
+## 🔐Crear Service Principal en Azure
+
+1️⃣ Login en Azure
+
+```bash
+az login
+```
+
+Si trabajas en múltiples suscripciones:
+
+```bash
+az account set --subscription "SUBSCRIPTION_ID"
+```
+
+Verificar:
+
+```bash
+az account show --output table
+```
+
+2️⃣ Crear Service Principal
+
+```bash
+az ad sp create-for-rbac \
+  -n  az-demo \
+  --role="Contributor" \ 
+  --scopes="/subscriptions/xxxxxx"
+```
+
+📌 Output esperado
+
+
+```json
+{
+  "appId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx",
+  "displayName": "az-demo",
+  "password": "xxxxxxxx",
+  "tenant": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxx"
+}
+```
+
+Guardar estos valores
+
+| Campo    | Uso           |
+| -------- | ------------- |
+| appId    | client_id     |
+| password | client_secret |
+| tenant   | tenant_id     |
+
+🎯 Uso típico en Terraform
+
+```bash
+export ARM_CLIENT_ID="appId"
+export ARM_CLIENT_SECRET="password"
+export ARM_SUBSCRIPTION_ID="subscription_id"
+export ARM_TENANT_ID="tenant"
+```
+
+### 🔐 Buenas prácticas (muy importante)
+
+- ❌ No usar Contributor a nivel suscripción en producción
+- ✔ Mejor usar rol mínimo necesario
+- ✔ Usar Managed Identity si es posible
+- ✔ Evitar credenciales estáticas en pipelines
+- ✔ Considerar Workload Identity Federation (OIDC)
+
+🔎 Alternativa más segura (recomendada hoy)
+
+En vez de usar client secret:
+
+```bash
+az ad sp create-for-rbac \
+  --name az-demo \
+  --role Contributor \
+  --scopes /subscriptions/xxxxxx \
+  --sdk-auth
+```
+
+O mejor aún:
+
+- GitHub → OIDC federation
+- Azure DevOps → Federated Credentials
+- AKS → Workload Identity
+
