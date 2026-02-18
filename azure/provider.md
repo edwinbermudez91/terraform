@@ -206,6 +206,7 @@ Verificar:
 
 ```bash
 az account show --output table
+az account show
 ```
 
 2️⃣ Crear Service Principal
