@@ -13,10 +13,9 @@ Componentes necesarios:
 
 ## 🚀 Paso a Paso
 
-```bash
-
 1️⃣ Crear recursos en Azure
 
+```bash
 # Variables
 RG_NAME="rg-terraform-state"
 LOCATION="westus"
