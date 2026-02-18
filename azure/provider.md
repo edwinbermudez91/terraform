@@ -254,7 +254,7 @@ export ARM_TENANT_ID="tenant"
 - ✔ Evitar credenciales estáticas en pipelines
 - ✔ Considerar Workload Identity Federation (OIDC)
 
-🔎 Alternativa más segura (recomendada hoy)
+### 🔎 Alternativa más segura (recomendada hoy)
 
 En vez de usar client secret:
 
