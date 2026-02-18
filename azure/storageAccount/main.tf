@@ -10,6 +10,8 @@ terraform {
 
 provider "azurerm" {
     features {}
+    subscription_id = var.subscription_id
+    resource_provider_registrations = "none"
 }
 
 resource "azurerm_resource_group" "test" {
@@ -18,7 +20,7 @@ resource "azurerm_resource_group" "test" {
 }
 
 resource "azurerm_storage_account" "sa" {
-  name                     = "sa-test"
+  name                     = "satest"
   resource_group_name      = azurerm_resource_group.test.name       #Implicit dependecy
   location                 = azurerm_resource_group.test.location   #Implicit dependecy
   account_tier             = "Standard"
